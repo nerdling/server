@@ -1,2 +1,2 @@
 # server
-Configuration for my person server environment.
+Configuration for my personal server environment.
