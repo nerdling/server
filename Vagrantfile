@@ -1,5 +1,6 @@
 Vagrant.configure("2") do |config|
-  ## Choose your base box
+  ## uses the vagrant-disksize plugin
+  config.disksize.size = "8GB"
   config.vm.box = "ubuntu/bionic64"
   config.vm.provider "virtualbox" do |v|
     v.memory = 512
