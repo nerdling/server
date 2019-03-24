@@ -1,9 +1,9 @@
---- 15-lda.conf     2019-03-23 16:24:50.060898367 +0000
-+++ 15-lda.conf     2017-06-23 11:18:28.000000000 +0000
-@@ -45,5 +45,4 @@
+--- 15-lda.conf.orig	2019-03-24 02:36:38.432042012 +0000
++++ 15-lda.conf	2019-03-24 02:37:21.069350003 +0000
+@@ -44,5 +44,5 @@
+ 
  protocol lda {
    # Space separated list of plugins to load (default is global mail_plugins).
-   #mail_plugins = $mail_plugins
+-  #mail_plugins = $mail_plugins
 +  mail_plugins = $mail_plugins sieve
  }
-
