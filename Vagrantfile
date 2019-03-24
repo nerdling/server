@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "pillar/", "/srv/pillar/", SharedFoldersEnableSymlinksCreate: false
 
   config.vm.provision :salt do |salt|
+    salt.bootstrap_options = "-x python3"
     salt.masterless = true
     salt.minion_config = "salt/minion"
     salt.run_highstate = true
