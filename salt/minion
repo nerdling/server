@@ -1,0 +1,4 @@
+file_client: local
+log_level: warning
+state_output: mixed
+state_output_diff: True

@@ -1,0 +1,20 @@
+--- 10-mail.conf.orig	2019-03-14 20:28:23.087830001 +0000
++++ 10-mail.conf	2019-03-14 20:32:16.040248009 +0000
+@@ -27,7 +27,7 @@
+ #
+ # <doc/wiki/MailLocation.txt>
+ #
+-mail_location = mbox:~/mail:INBOX=/var/mail/%u
++mail_location = maildir:~/Maildir
+ 
+ # If you need to set multiple mailbox locations or want to change default
+ # namespace settings, you can do it by defining namespace sections.
+@@ -240,7 +240,7 @@
+ # there are any new mails or other changes. This setting defines the minimum
+ # time to wait between those checks. Dovecot can also use inotify and
+ # kqueue to find out immediately when changes occur.
+-#mailbox_idle_check_interval = 30 secs
++mailbox_idle_check_interval = 1 secs
+ 
+ # Save mails with CR+LF instead of plain LF. This makes sending those mails
+ # take less CPU, especially with sendfile() syscall with Linux and FreeBSD.
