@@ -1,7 +1,11 @@
-{% set dismods = ("mpm_event",) %}
-{% set ensites = ("000-default", "000-default-le-ssl", "001-cafe-rustica") %}
-{% set enmods = ("mpm_prefork", "socache_shmcb", "ssl") %}
+{% set dismods = () %}
+{# set domains in a pillar "domains: a,b,c" #}
+{% set ensites = salt["pillar.get"]("domains") %}
+{% set enmods = ("socache_shmcb", "ssl") %}
 ---
+include:
+  - letsencrypt
+
 install apache2:
   pkg.installed:
     - name: apache2
@@ -15,6 +19,7 @@ apache2 running:
     - watch:
       {% for site in ensites %}
       - file: enable-site-{{ site }}
+      - file: create-site-{{ site }}
       {% endfor %}
       {% for mod in enmods %}
       - file: enable-mod-conf-{{ mod }}
@@ -25,20 +30,25 @@ apache2 running:
       - file: disable-mod-load-{{ mod }}
       {% endfor %}
 
-available-sites:
-  file.recurse:
-    - name: /etc/apache2/sites-available
-    - source: salt://apache2/files/sites-available
+{% for site in ensites %}
+create-site-{{ site }}:
+  file.managed:
+    - name: /etc/apache2/sites-available/{{ site }}.conf
+    - source: salt://apache2/files/default-ssl.conf.j2
+    - template: jinja
+    - context:
+      domain: {{ site }}
     - require:
       - pkg: install apache2
+      - cmd: setup certbot
 
-{% for site in ensites %}
 enable-site-{{ site }}:
   file.symlink:
     - name: /etc/apache2/sites-enabled/{{ site }}.conf
     - target: /etc/apache2/sites-available/{{ site }}.conf
     - require:
       - pkg: install apache2
+      - file: create-site-{{ site }}
 {% endfor %}
 
 {% for mod in enmods %}

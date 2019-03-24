@@ -1,3 +1,6 @@
+{# set a pillar with "email:address" #}
+{% set email = salt["pillar.get"]("email") %}
+{% set domains = salt["pillar.get"]("domains") %}
 ---
 certbot ppa:
   pkgrepo.managed:
@@ -15,6 +18,6 @@ install certbot:
 
 setup certbot:
   cmd.run:
-    - name: certbot --apache -d mx.lavergne.me
+    - name: certbot -n --apache -m {{ email }}{% for domain in domains%} -d {{ domain }}{% endfor %}
     - onchanges:
       - pkg: install certbot
