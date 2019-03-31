@@ -1,0 +1,4 @@
+{% set cloudflare = salt["pillar.get"]("cloudflare") -%}
+# Cloudflare API credentials used by Certbot
+dns_cloudflare_email = {{ cloudflare["email"] }}
+dns_cloudflare_api_key = {{ cloudflare["key"] }}
