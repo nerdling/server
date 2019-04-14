@@ -17,11 +17,21 @@ available-sites:
     - require:
       - pkg: install apache2
 
-{% for site in ("000-default", "000-default-le-ssl", "001-cafe-rustica") %}
+{% for site in ("000-default-le-ssl", "001-cafe-rustica") %}
 enable-site-{{ site }}:
   file.symlink:
     - name: /etc/apache2/sites-enabled/{{ site }}.conf
     - target: /etc/apache2/sites-available/{{ site }}.conf
+    - require:
+      - pkg: install apache2
+    - watch:
+      - service: apache2 running
+{% endfor %}
+
+{% for site in ("000-default", ) %}
+disable-site-{{ site }}:
+  file.absent:
+    - name: /etc/apache2/sites-enabled/{{ site }}.conf
     - require:
       - pkg: install apache2
     - watch:
