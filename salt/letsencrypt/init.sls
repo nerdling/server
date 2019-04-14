@@ -20,6 +20,7 @@ install certbot packages:
 install cloudflare credentials:
   file.managed:
     - name: /etc/cloudflare.ini
+    - mode: 600
     - source: salt://letsencrypt/files/cloudflare.ini.j2
     - template: jinja
 
